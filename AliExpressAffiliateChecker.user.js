@@ -1,13 +1,12 @@
 // ==UserScript==
 // @name AliExpress Affiliate Checker
 // @description Проверяет аффилиатность товаров на AliExpress
-// @author longnull
-// @namespace longnull
-// @version 1.1
-// @homepage https://github.com/longnull/AliExpressAffiliateChecker
-// @supportURL https://github.com/longnull/AliExpressAffiliateChecker/issues
-// @updateURL https://raw.githubusercontent.com/longnull/AliExpressAffiliateChecker/master/AliExpressAffiliateChecker.user.js
-// @downloadURL https://raw.githubusercontent.com/longnull/AliExpressAffiliateChecker/master/AliExpressAffiliateChecker.user.js
+// @author longnull, KKomarov
+// @version 1.2
+// @homepage https://github.com/KKomarov/AliExpressAffiliateChecker
+// @supportURL https://github.com/KKomarov/AliExpressAffiliateChecker/issues
+// @updateURL https://raw.githubusercontent.com/KKomarov/AliExpressAffiliateChecker/master/AliExpressAffiliateChecker.user.js
+// @downloadURL https://raw.githubusercontent.com/KKomarov/AliExpressAffiliateChecker/master/AliExpressAffiliateChecker.user.js
 // @match *://*.aliexpress.com/item/*
 // @match *://*.aliexpress.com/i/*
 // @match *://*.aliexpress.ru/item/*
@@ -34,6 +33,7 @@
     //   letyshops - LetyShops
     //   skidka - Skidka.ru. Отображается процент кэшбэка
     services: ['backit', 'letyshops', 'skidka'],
+    backitUserId: '9097cf2568dd74f44c3095930fff2fc8',
     // Цвет индикации: аффилиатный товар
     colorAffiliate: '#deffde',
     // Цвет индикации: неаффилиатный товар
@@ -60,7 +60,7 @@
   const services = {
     backit: {
       name: 'Backit',
-      url: 'https://backit.me/cashback/shops/ali',
+      url: `https://shopnow.pub/redirect/cpa/u/${config.backitUserId}/ali/?to=${encodeURIComponent((location.origin + location.pathname).replace('/i/', '/item/'))}`,
       icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAALVBMVEVHcEwAAAAAAADP/ADP/AAuOABmfADI9ADd/wDP/QDP/AAAAADK9wA7SABlewDkN1KPAAAACnRSTlMAtga2BuoMuAa2jOpPLgAAAD9JREFUKM9jWAUHix0YQGBQCZwBgeNJSkAAFljz9i4QXBUEAYjA7d1wMHgFjIFgejSSgAsQtEkjCYAA0yAUAAC0Lx1dRjeOxQAAAABJRU5ErkJggg==',
       async check() {
         const response = await httpRequest({
@@ -235,7 +235,7 @@
       const item = document.createElement('div');
       item.innerHTML = `
         <div class="affiliate-checker-icon">
-          <a href="${services[s].url}" target="_blank" rel="noopener">
+          <a href="${services[s].url}" target="_self" rel="noopener">
             <img src="${services[s].icon}" title="${services[s].name}">
           </a>
         </div>
@@ -283,19 +283,11 @@
       });
     }
 
-    const links = main.querySelectorAll('a');
-
-    links.forEach((link) => {
-      link.addEventListener('click', () => {
-        link.href = link.href.replace(/\?.+/, '');
-      });
-    });
-
     elementSibling.after(main);
   };
 
-  const elementSibling = document.querySelector('.product-info .product-price, .detail-wrap .product-price-area, .detail-price-wish-wrap');
-  const elementPrice = document.querySelector('.product-info .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price');
+  const elementSibling = document.querySelector('.product-price, .detail-wrap .product-price-area, .detail-price-wish-wrap');
+  const elementPrice = document.querySelector('.product-price .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price');
 
   if (elementSibling) {
     if (config.autoCheck) {
