@@ -2,7 +2,7 @@
 // @name AliExpress Affiliate Checker
 // @description Проверяет аффилиатность товаров на AliExpress
 // @author longnull, KKomarov
-// @version 1.2
+// @version 1.2.1
 // @homepage https://github.com/KKomarov/AliExpressAffiliateChecker
 // @supportURL https://github.com/KKomarov/AliExpressAffiliateChecker/issues
 // @updateURL https://raw.githubusercontent.com/KKomarov/AliExpressAffiliateChecker/master/AliExpressAffiliateChecker.user.js
@@ -287,7 +287,7 @@
   };
 
   const elementSibling = document.querySelector('.product-price, .detail-wrap .product-price-area, .detail-price-wish-wrap');
-  const elementPrice = document.querySelector('.product-price .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price');
+  const elementPrice = document.querySelector('.product-price .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price, .uniform-banner-box-price');
 
   if (elementSibling) {
     if (config.autoCheck) {
