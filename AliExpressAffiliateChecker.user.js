@@ -2,7 +2,7 @@
 // @name AliExpress Affiliate Checker
 // @description Проверяет аффилиатность товаров на AliExpress
 // @author longnull, KKomarov
-// @version 1.2.1
+// @version 1.2.2
 // @homepage https://github.com/KKomarov/AliExpressAffiliateChecker
 // @supportURL https://github.com/KKomarov/AliExpressAffiliateChecker/issues
 // @updateURL https://raw.githubusercontent.com/KKomarov/AliExpressAffiliateChecker/master/AliExpressAffiliateChecker.user.js
@@ -34,6 +34,7 @@
     //   skidka - Skidka.ru. Отображается процент кэшбэка
     services: ['backit', 'letyshops', 'skidka'],
     backitUserId: '9097cf2568dd74f44c3095930fff2fc8',
+    letyShopsAliUserId: 'vv3q4oey1vc09fee9900b6d1781017',
     // Цвет индикации: аффилиатный товар
     colorAffiliate: '#deffde',
     // Цвет индикации: неаффилиатный товар
@@ -95,7 +96,7 @@
     },
     letyshops: {
       name: 'LetyShops',
-      url: 'https://letyshops.com/shops/aliexpress',
+      url: `https://ad.admitad.com/goto/${config.letyShopsAliUserId}/?ulp=${encodeURIComponent((location.origin + location.pathname).replace('/i/', '/item/'))}`,
       icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA/FBMVEVHcEz////80xv80xv////80xv80hX////////////////80xv////////80xv931n/+eD80xv///8SEhIPEBH80xj/1hsODg7///8LCwz80xr/+ub+3lD91SH+1RmFcBX82DL/9sr+7aL//vj95Xd7e3suLi4aGhrV1dUWFha3t7ckJCTe3t6Hh4fx8fEbGRL8/Pztxxr19fXFphmCgoJqamo6OjtYWFWqqqr954L78snr6+uxsbFFRUXBwcGmkS6hoaGRkZErJxOpjxhLS0uSexeQkJBEOxTbuBpjVRVmZmbk5OTJyclQUFB0dHSfhhd7bSzR0dH44HLr59O3cCE7AAAAEXRSTlMAyt+P3/wj/I8j3srJNzfJN1GHnoUAAAE7SURBVDjLfZPXcsIwEEWXEmxIRZLRUJ0GtjHF9PSQ3vv//0tWprlInNc90uzO3AsAmVRyIx/BOCVES+tZQHY28zGMSpkIEtv4XjbfPyAztrKQis9L1UOyQIek5IPjo6WQg/B+BaQ2X8BHg9C892Ca5vUZCRASCoMuY8URUQt3lFJ2s0YwGaVOUy3kX1BwbbXQe2KUj8+VQu35FoWJpxYGXUp5nSiFwhceQadKoVT9xh2tK7XwO+GUNVoqwaj8jTnllx2FgBmwXdzx1ZMLIgNNB4U2kQsiA1O8gY/6UsEP4Ym40vr4rNsxYRbCH5eJP7j1HhXmIfTqVBis8RYVFiHstBsO58X7fkQwliH0WhePw2EoEBjaVQskaJAMtiBODosTaEEcHTK75TVzrB7sJdRzUV6ArJ7WpPv59f8Hhs9SMrQm3HEAAAAASUVORK5CYII=',
       async check() {
         const response = await httpRequest({
@@ -286,8 +287,8 @@
     elementSibling.after(main);
   };
 
-  const elementSibling = document.querySelector('.product-price, .detail-wrap .product-price-area, .detail-price-wish-wrap');
-  const elementPrice = document.querySelector('.product-price .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price, .uniform-banner-box-price');
+  const elementSibling = document.querySelector('.product-price, .detail-wrap .product-price-area, .detail-price-wish-wrap, [class*=uniformBanner]');
+  const elementPrice = document.querySelector('.product-price .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price, .uniform-banner-box-price, [class*=uniformBannerBoxPrice]');
 
   if (elementSibling) {
     if (config.autoCheck) {
