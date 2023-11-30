@@ -237,7 +237,7 @@
       item.innerHTML = `
         <div class="affiliate-checker-icon">
           <a href="${services[s].url}" target="_self" rel="noopener">
-            <img src="${services[s].icon}" title="${services[s].name}">
+            <img src="${services[s].icon}" alt="${services[s].name[0]}" title="${services[s].name}">
           </a>
         </div>
         <div class="affiliate-checker-info">
@@ -287,8 +287,8 @@
     elementSibling.after(main);
   };
 
-  const elementSibling = document.querySelector('.product-price, .detail-wrap .product-price-area, .detail-price-wish-wrap, [class*=uniformBanner]');
-  const elementPrice = document.querySelector('.product-price .product-price-current, .detail-wrap .current-price, .detail-price-wish-wrap .current-price, .uniform-banner-box-price, [class*=uniformBannerBoxPrice]');
+  const elementSibling = document.querySelector('[class*=snow-price_SnowPrice__container]');
+  const elementPrice = document.querySelector('[class*=snow-price_SnowPrice__mainS]');
 
   if (elementSibling) {
     if (config.autoCheck) {
